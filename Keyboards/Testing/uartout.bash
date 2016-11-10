@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This is a build script template
+# This is a build script template for testing builds
 # These build scripts are just a convenience for configuring your keyboard (less daunting than CMake)
 # Jacob Alexander 2015-2016
 
@@ -11,7 +11,7 @@
 
 # Feel free to change the variables in this section to configure your keyboard
 
-BuildPath="IC60"
+BuildPath="UART"
 
 ## KLL Configuration ##
 
@@ -30,6 +30,7 @@ DefaultMap="md1Overlay stdFuncMap"
 #       PartialMaps[2]="layer2"
 #       PartialMaps[3]="layer3"
 PartialMaps[1]="hhkbpro2"
+PartialMaps[2]="colemak"
 
 
 
@@ -44,7 +45,7 @@ PartialMaps[1]="hhkbpro2"
 # Keyboard Module Configuration
 ScanModule="Infinity_60%"
 MacroModule="PartialMap"
-OutputModule="pjrcUSB"
+OutputModule="uartOut"
 DebugModule="full"
 
 # Microcontroller
@@ -62,11 +63,14 @@ Compiler="gcc"
 # Shouldn't need to touch this section
 
 # Check if the library can be found
-if [ ! -f cmake.bash ]; then
+if [ ! -f ../cmake.bash ]; then
 	echo "ERROR: Cannot find 'cmake.bash'"
 	exit 1
 fi
 
+# Override CMakeLists path
+CMakeListsPath="../../.."
+
 # Load the library
-source cmake.bash
+source "../cmake.bash"
 

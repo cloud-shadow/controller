@@ -11,7 +11,7 @@ BuildPath=${BuildPath}.${Compiler}
 
 # Make sure all of the relevant variables have been set
 # NOTE: PartialMaps and DefaultMap do not have to be set
-VariablesList=(BuildPath BaseMap ScanModule MacroModule OutputModule DebugModule Chip Compiler)
+VariablesList=(BuildPath Chip Compiler)
 ExitEarly=false
 for var in ${VariablesList[@]}; do
 	if [ -z ${!var+x} ]; then
@@ -36,7 +36,7 @@ done
 
 
 # Internal Variables
-CMakeListsPath=${CMakeListsPath:-"../.."}
+CMakeListsPath="../.."
 PROG_NAME=$(basename $0)
 
 
@@ -94,12 +94,11 @@ if [[ $(uname -s) == MINGW32_NT* ]] || [[ $(uname -s) == CYGWIN* ]]; then
 		exit 1
 	fi
 	echo "Cygwin Build"
-	PATH="$wincmake_path":"${PATH}" cmake -DCHIP="${Chip}" -DCOMPILER="${Compiler}" -DScanModule="${ScanModule}" -DMacroModule="${MacroModule}" -DOutputModule="${OutputModule}" -DDebugModule="${DebugModule}" -DBaseMap="${BaseMap}" -DDefaultMap="${DefaultMap}" -DPartialMaps="${PartialMapsExpanded}" "${CMakeListsPath}" -G 'Unix Makefiles'
-	return_code=$?
+	PATH="$wincmake_path":"${PATH}" cmake -DCHIP="${Chip}" -DCOMPILER="${Compiler}" "${CMakeListsPath}" -G 'Unix Makefiles'
 
 # Linux / Mac (and everything else)
 else
-	cmake -DCHIP="${Chip}" -DCOMPILER="${Compiler}" -DScanModule="${ScanModule}" -DMacroModule="${MacroModule}" -DOutputModule="${OutputModule}" -DDebugModule="${DebugModule}" -DBaseMap="${BaseMap}" -DDefaultMap="${DefaultMap}" -DPartialMaps="${PartialMapsExpanded}" "${CMakeListsPath}"
+	cmake -DCHIP="${Chip}" -DCOMPILER="${Compiler}" "${CMakeListsPath}"
 	return_code=$?
 
 fi
